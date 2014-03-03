@@ -15,41 +15,56 @@
     <script src="scripts/location.js"></script>
     <script src="scripts/weather.js"></script>
     <script src="scripts/app.js"></script>
-
+    <script src="Plugins/jquery.xml2json.js"></script>
+    
+    <script>
+        
+        var webService = "http://localhost:64840/tPointWebService.asmx/"; //getComponent
+        // componentID: compId, userID: userId, recordId: recordId, lsSearchParams: searchParams
+        //call(webService + "getLogin", "test", "test");
+        
+        function call(address, username, password) {
+			jQuery.support.cors = true;
+            var returnValue = 0;
+            
+			$.ajax({
+					type: "POST",
+                    async: false,
+					url: address,
+                    data: JSON.stringify({ username: username, password: password }),
+                    contentType: "application/json; charset=utf-8",
+					success: function (response) 
+                    {
+                        returnValue = response.d;
+                        
+                        console.log(returnValue); 
+                        
+                        return returnValue;
+                        //var nameJson = $.xml2json(response.d);
+					},
+                    error: function (response) 
+                    {
+						console.log("Error: " + response);
+					}
+			});
+            
+            //return returnValue;
+        }
+        
+    </script>
+    
 </head>
 <body>
-    <!--Home-->
-    <div id="tabstrip-home"
-        data-role="view"
-        data-title="Home">
-
+    
+    <!-- <a id="skin-change" data-role="button" data-click="app.changeSkin">Flat</a> -->
+    
+    <!-- Login/Home -->
+    <div id="login" data-role="view" data-title="Login" data-model="app.loginService.viewModel">
         <div class="view-content">
-            <h1>Welcome!</h1>
-            <a id="skin-change" data-role="button" data-click="app.changeSkin">Flat</a>
-            <p>
-                Telerik AppBuilder&trade; enables you to build cross-platform device applications regardless of your
-                    development platform by combining the convenience of a local development toolset with the
-                    power and flexibility of the cloud.
-            </p>
-            <div class="img"></div>
-        </div>
-    </div>
-
-    <!--Login-->
-    <div id="tabstrip-login"
-        data-role="view"
-        data-title="Login"
-        data-model="app.loginService.viewModel">
-
-        <div class="view-content">
-            <div class="logo"></div>
+            <div class="logo" data-bind="invisible: isLoggedIn"></div>
+            
+            <!-- When not logged -->
             <h3 data-bind="invisible: isLoggedIn">Enter your credentials:</h3>
-            <h1 class="welcome" data-bind="visible: isLoggedIn">Welcome, <span data-bind="text: username"></span>!
-            </h1>
-            <div class="buttonArea">
-                <input type="submit" id="logout" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" class="login-button" value="Logout" />
-            </div>
-
             <form data-bind="events: { keyup: checkEnter }">
                 <ul data-role="listview" data-style="inset" data-bind="invisible: isLoggedIn">
                     <li>
@@ -70,9 +85,144 @@
                     <input type="submit" id="login" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" class="login-button" value="Login" />
                 </div>
             </form>
+            
+            <!-- When logged is successful -->
+            <h1 class="welcome" data-bind="visible: isLoggedIn">
+                Aspect Maintenance
+            </h1>
+            <div data-bind="visible: isLoggedIn">
+                <a class="position" data-role="button" href="#jobSummaryOverview">Outstanding Calls</a>
+                <a class="position" data-role="button" href="#button-home">Get Specific Calls</a>
+                <a class="position" data-role="button" href="#button-home">Enter Call Details</a>
+                <a class="position" data-role="button" href="#button-home">Enter Timesheet</a>
+                <a class="position" data-role="button" href="#button-home">Timesheet Report</a>
+            </div>
+            <div class="position">
+                <input type="submit" id="logout" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" class="login-button" value="Logout" />
+            </div>
+            
         </div>
-
     </div>
+    
+    <div id="jobSummaryOverview" data-role="view" data-title="Job Summary Overview">
+        <div class="view-content">
+            <center>
+                <h1>Job Summary Overview</h1>
+            </center>
+            
+            <!--<input class="position" id="client" type="text" readonly="readonly" />
+            <input class="position" id="balance" type="text" readonly="readonly" />
+            <input class="position" id="call" type="text" readonly="readonly" />-->
+            
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>
+                        Client
+                        <input type="text" data-bind="value: client" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Balance
+                        <input type="text" data-bind="value: balance" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Call
+                        <input type="text" data-bind="value: call" readonly="readonly" />
+                    </label>
+                </li>
+            </ul>
+            
+            <a class="position" data-role="button" href="#login">Cancel</a>
+            <a class="position" data-role="button" href="#jobSummary">View</a>
+        </div>
+    </div>
+    
+    <div id="jobSummary" data-role="view" data-title="Job Summary">
+        <div class="view-content">
+            <center>
+                <h1>Job Summary</h1>
+            </center>
+            
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>
+                        Call Ref
+                        <input type="text" data-bind="value: callRef" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Company
+                        <input type="text" data-bind="value: company" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Address
+                        <input type="text" data-bind="value: address" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Contact
+                        <input type="text" data-bind="value: contact" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Telephone
+                        <input type="text" data-bind="value: telephone" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Apt. Start
+                        <input type="text" data-bind="value: start" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Apt. End
+                        <input type="text" data-bind="value: end" readonly="readonly" />
+                    </label>
+                </li>
+            </ul>
+            
+            <a class="position" data-role="button" href="#enterETA">Select</a>
+            <a class="position" data-role="button" href="#login">Home</a>
+        </div>
+    </div>
+
+    <div id="enterETA" data-role="view" data-title="Enter ETA">
+        <div class="view-content">
+            <center>
+                <h1>Enter ETA</h1>
+            </center>
+            
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>
+                        Date
+                        <input type="text" data-bind="value: date" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Time
+                        <input type="text" data-bind="value: time" />
+                    </label>
+                </li>
+            </ul>
+            
+            <a class="position" data-role="button" href="#">Save</a>
+            <a class="position" data-role="button" href="#login">Cancel</a>
+        </div>
+    </div>
+    
+    
 
     <!--Location-->
     <div id="tabstrip-location"
@@ -136,17 +286,14 @@
         </div>
     </script>
 
-    <!--Layout-->
-    <div data-role="layout" data-id="tabstrip-layout">
+    <!--<div data-role="layout" data-id="tabstrip-layout">
 
-        <!--Header-->
         <div data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
             </div>
         </div>
 
-        <!--Footer-->
         <div data-role="footer">
             <div data-role="tabstrip">
                 <a href="#tabstrip-home" data-icon="home">Home</a>
@@ -155,6 +302,6 @@
                 <a href="#tabstrip-weather" data-icon="globe">Weather</a>
             </div>
         </div>
-    </div>
+    </div>-->
 </body>
 </html>

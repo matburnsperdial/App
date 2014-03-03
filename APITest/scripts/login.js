@@ -18,8 +18,15 @@
 
                 return;
             }
-
-            that.set("isLoggedIn", true);
+            
+            var checkLogin = call(webService + "getLogin", username, password);
+            console.log("checkLogin: " + checkLogin);
+            
+            if (checkLogin !== "0")
+            {
+                that.set("isLoggedIn", true);
+            }
+            
         },
 
         onLogout: function () {

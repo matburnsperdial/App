@@ -25,17 +25,18 @@
             if (!checkLogin == "0")
             {
                 that.set("isLoggedIn", true);
+                setStored("userId", checkLogin);
+                var bla = getStored("userId");
+                console.log(bla);
             }
             else
             {
-                console.log(checkLogin); 
                 that.set("error", true);
                 that.set("isLoggedIn", false);
             }
             
         },
         
-
         onLogout: function () {
             var that = this;
 

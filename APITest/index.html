@@ -25,7 +25,7 @@
         
         function call(address, username, password) {
 			jQuery.support.cors = true;
-            var returnValue = 0;
+            var returnValue = -1;
             
 			$.ajax({
 					type: "POST",
@@ -39,7 +39,7 @@
                         
                         console.log(returnValue); 
                         
-                        return returnValue;
+                        //return returnValue;
                         //var nameJson = $.xml2json(response.d);
 					},
                     error: function (response) 
@@ -48,7 +48,7 @@
 					}
 			});
             
-            //return returnValue;
+            return returnValue;
         }
         
     </script>

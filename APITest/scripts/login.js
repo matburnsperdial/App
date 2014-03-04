@@ -19,15 +19,39 @@
                 return;
             }
             
-            var checkLogin = call(webService + "getLogin", username, password);
-            console.log("checkLogin: " + checkLogin);
+            /*var checkLogin;
             
-            if (checkLogin !== "0")
+            jQuery.support.cors = true;
+            
+			$.ajax({
+					type: "POST",
+                    async: false,
+					url: "http://localhost:64840/tPointWebService.asmx/getLogin",
+                    data: JSON.stringify({ username: username, password: password }),
+                    contentType: "application/json; charset=utf-8",
+					success: function (response) 
+                    {                        
+                        checkLogin = response.d;
+                        
+                        return checkLogin;
+					},
+                    error: function (response) 
+                    {
+						console.log("Error: " + response);
+					}
+			});*/
+            
+            var checkLogin = call(webService + "getLogin", username, password);
+            //console.log(that.call(webService + "getLogin", username, password));
+            console.log(checkLogin); 
+            
+            if (!checkLogin == "0")
             {
                 that.set("isLoggedIn", true);
             }
             
         },
+        
 
         onLogout: function () {
             var that = this;

@@ -6,6 +6,7 @@
         isLoggedIn: false,
         username: "",
         password: "",
+        error: false,
 
         onLogin: function () {
             var that = this,
@@ -19,35 +20,17 @@
                 return;
             }
             
-            /*var checkLogin;
-            
-            jQuery.support.cors = true;
-            
-			$.ajax({
-					type: "POST",
-                    async: false,
-					url: "http://localhost:64840/tPointWebService.asmx/getLogin",
-                    data: JSON.stringify({ username: username, password: password }),
-                    contentType: "application/json; charset=utf-8",
-					success: function (response) 
-                    {                        
-                        checkLogin = response.d;
-                        
-                        return checkLogin;
-					},
-                    error: function (response) 
-                    {
-						console.log("Error: " + response);
-					}
-			});*/
-            
             var checkLogin = call(webService + "getLogin", username, password);
-            //console.log(that.call(webService + "getLogin", username, password));
-            console.log(checkLogin); 
             
             if (!checkLogin == "0")
             {
                 that.set("isLoggedIn", true);
+            }
+            else
+            {
+                console.log(checkLogin); 
+                that.set("error", true);
+                that.set("isLoggedIn", false);
             }
             
         },

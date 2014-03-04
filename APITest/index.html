@@ -37,9 +37,6 @@
                     {
                         returnValue = response.d;
                         
-                        console.log(returnValue); 
-                        
-                        //return returnValue;
                         //var nameJson = $.xml2json(response.d);
 					},
                     error: function (response) 
@@ -80,13 +77,17 @@
                         </label>
                     </li>
                 </ul>
-
+                
                 <div class="buttonArea">
                     <input type="submit" id="login" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" class="login-button" value="Login" />
                 </div>
+                
+                <center>
+                    <h2 class="welcome" style="color: red" data-bind="invisible: isLoggedIn, visible: error">I'm afraid I can't let you do that Dave</h2>
+                </center>
             </form>
             
-            <!-- When logged is successful -->
+            <!-- When logged in is successful -->
             <h1 class="welcome" data-bind="visible: isLoggedIn">
                 Aspect Maintenance
             </h1>

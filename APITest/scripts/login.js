@@ -22,15 +22,17 @@
             
             var checkLogin = call(webService + "getLogin", username, password);
             
+            console.log("checkLogin: " + checkLogin);
+            
             if (!checkLogin == "0")
             {
                 that.set("isLoggedIn", true);
                 setStored("userId", checkLogin);
                 var bla = getStored("userId");
-                console.log(bla);
             }
             else
             {
+                console.log("in: " + checkLogin)
                 that.set("error", true);
                 that.set("isLoggedIn", false);
             }
@@ -41,7 +43,9 @@
             var that = this;
 
             that.clearForm();
+            clearStored();
             that.set("isLoggedIn", false);
+            that.set("error", false);
         },
 
         clearForm: function () {

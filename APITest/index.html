@@ -20,7 +20,8 @@
     
     <script>
         
-        var webService = "http://localhost:64840/tPointWebService.asmx/"; //getComponent
+        var webService = "http://tpointwebservice.perdial.com/tpointwebservice.asmx/"; //getComponent
+        //var webService = "http://193.128.62.132/tPointWebService.asmx/"; //getComponent
         // componentID: compId, userID: userId, recordId: recordId, lsSearchParams: searchParams
         //call(webService + "getLogin", "test", "test");
         
@@ -37,7 +38,7 @@
 					success: function (response) 
                     {
                         returnValue = response.d;
-                        
+                        console.log("call: " + returnValue);
                         //var nameJson = $.xml2json(response.d);
 					},
                     error: function (response) 
@@ -81,6 +82,7 @@
                 
                 <div class="buttonArea">
                     <input type="submit" id="login" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" class="login-button" value="Login" />
+                    <input type="submit" id="login" data-role="button" data-bind="click: clearForm, invisible: isLoggedIn" class="login-button" value="Clear" />
                 </div>
                 
                 <center>

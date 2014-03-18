@@ -31,7 +31,6 @@
             }
             else
             {
-                console.log("in: " + checkLogin)
                 that.set("error", true);
                 that.set("isLoggedIn", false);
             }

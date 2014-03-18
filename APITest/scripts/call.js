@@ -12,11 +12,10 @@ function getLogin(username, password)
     return returnValue;
 }
 
-function getNextJob(userId)
+function getMyNextJob(userId)
 {
     var address = webService + "getNextJob";
-    //var params = JSON.stringify({ userId: userId });
-    var params = "{'userId':'" + userId + "'}";
+    var params = JSON.stringify({ userID: userId });
     var returnValue = call(address, params, successNextJob);
     
     return returnValue;
@@ -31,10 +30,9 @@ function successLogin(data)
 
 function successNextJob(data)
 {
-    console.log("called Next Job ");
-    //returnValue = JSON.parse(returnValue);
-    //var returnValue = $.xml2json(response.d);
-    return data;
+    var returnValue = $.xml2json(data.d);
+    
+    return returnValue;
 }
 
 function call(address, params, onSucess) 
@@ -51,9 +49,6 @@ function call(address, params, onSucess)
 		success: function (response) 
         {
             returnValue = onSucess(response);
-            
-            //returnValue = JSON.parse(returnValue);
-            //var returnValue = $.xml2json(response.d);
 		},
         error: function (response) 
         {
@@ -64,30 +59,3 @@ function call(address, params, onSucess)
     return returnValue;
 }
 
-/*
-function call(address, username, password) 
-{
-    jQuery.support.cors = true;
-    var returnValue = 0;
-            
-	$.ajax({
-		type: "POST",
-        async: false,
-		url: address,
-        data: JSON.stringify({ username: username, password: password }),
-        contentType: "application/json; charset=utf-8",
-		success: function (response) 
-        {
-        	returnValue = response.d;
-            console.log("call: " + returnValue);
-            //var nameJson = $.xml2json(response.d);
-		},
-        error: function (response) 
-        {
-			console.log("Error: " + response);
-		}
-	});
-            
-    return returnValue;
-}
-*/

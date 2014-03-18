@@ -72,39 +72,7 @@
         </div>
     </div>
     
-    <!--<div id="jobSummaryOverview" data-role="view" data-title="Job Summary Overview">
-        <div class="view-content">
-            <center>
-                <h1>Job Summary Overview</h1>
-            </center>
-            
-            <ul data-role="listview" data-style="inset">
-                <li>
-                    <label>
-                        Client
-                        <input type="text" data-bind="value: client" readonly="readonly" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        Balance
-                        <input type="text" data-bind="value: balance" readonly="readonly" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        Call
-                        <input type="text" data-bind="value: call" readonly="readonly" />
-                    </label>
-                </li>
-            </ul>
-            
-            <a class="position" data-role="button" href="#login">Cancel</a>
-            <a class="position" data-role="button" href="#jobSummary">View</a>
-        </div>
-    </div>-->
-    
-    <div id="jobSummary" data-role="view" data-title="Job Summary" data-model="app.jobService.viewModel" data-init="getNextJob">
+    <div id="jobSummary" data-role="view" data-title="Job Summary" data-model="app.jobService.viewModel" data-before-show="app.jobService.viewModel.getNextJob">
         <div class="view-content">
             <center>
                 <h1>Job Summary</h1>
@@ -131,14 +99,38 @@
                 </li>
                 <li>
                     <label>
-                        Contact
-                        <input type="text" data-bind="value: contact" readonly="readonly" />
+                        First Name
+                        <input type="text" data-bind="value: firstName" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Last Name
+                        <input type="text" data-bind="value: lastName" readonly="readonly" />
                     </label>
                 </li>
                 <li>
                     <label>
                         Telephone
                         <input type="text" data-bind="value: telephone" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Description
+                        <input type="text" data-bind="value: description" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Type
+                        <input type="text" data-bind="value: type" readonly="readonly" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Service
+                        <input type="text" data-bind="value: service" readonly="readonly" />
                     </label>
                 </li>
                 <li>
@@ -187,7 +179,6 @@
     </div>
     
     
-
     <!--Location-->
     <div id="tabstrip-location"
         data-role="view"

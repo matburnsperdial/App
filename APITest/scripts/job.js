@@ -58,24 +58,25 @@
                     
                     //console.log("fieldName: " + fieldName);
                     
-                    switch (fieldName, fieldValue)
-            		{
-                        case (fieldName.indexOf('Company') != -1):
+                    switch (fieldName)
+            		{                        
+                        case (key.indexOf('Company') >= 0):
                         	console.log("in!     fieldName: " + fieldName);	
                         	that.set("company", fieldValue);
-                        	
                             break;
                         case (fieldName.indexOf('irst') >= 0):
                             //fieldValue = nextJob.row[key];
-                        	that.set("firstName", fieldValue);
                         	console.log("in!     fieldName: " + fieldName);
+                        	that.set("firstName", fieldValue);
                             break;
                     }
 					
-                    console.log("fieldValue: " + fieldValue);
+                    //console.log("fieldValue: " + fieldValue);
                 }
-                
-                
+            }
+            else
+            {
+                console.log("No data available");
             }
 
         }

@@ -360,9 +360,14 @@ body, html {
   width: 90%;
   margin: 1em;
   margin-bottom: 0.1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 3em;
+  padding-bottom: 3em;
   text-align: center;
+}
+
+.largerSize
+{
+    font-size: larger;
 }
 
 

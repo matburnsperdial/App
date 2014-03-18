@@ -6,14 +6,20 @@
         client: "",
         balance: "",
         call: "",
-
+		
         getNextJob: function () {
             var that = this,
-                username = that.get("username").trim(),
-                password = that.get("password").trim();
-                password = that.get("password").trim();
+                client = that.get("client").trim(),
+                balance = that.get("balance").trim();
+            	call = that.get("call").trim();
             
-            var checkLogin = call(webService + "getLogin", username, password);
+            var userId = getStored("userId");
+            
+            console.log("userId: " + userId);
+            
+            //var nextJob = getNextJob(userId);
+            
+            //console.log("Job: " + nextJob);
             
             
             

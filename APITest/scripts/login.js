@@ -14,13 +14,13 @@
                 password = that.get("password").trim();
 
             if (username === "" || password === "") {
-                navigator.notification.alert("Both fields are required!",
-                    function () { }, "Login failed", 'OK');
-
+                //navigator.notification.alert("Both fields are required!",
+                    //function () { }, "Login failed", 'OK');
+					that.set("error", true);
                 return;
             }
             
-            var checkLogin = call(webService + "getLogin", username, password);
+            var checkLogin = getLogin(username, password);
             
             console.log("checkLogin: " + checkLogin);
             
@@ -28,7 +28,6 @@
             {
                 that.set("isLoggedIn", true);
                 setStored("userId", checkLogin);
-                var bla = getStored("userId");
             }
             else
             {

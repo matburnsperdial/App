@@ -12,51 +12,16 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 
     <script src="scripts/login.js"></script>
+    <script src="scripts/job.js"></script>
     <script src="scripts/storage.js"></script>
     <script src="scripts/location.js"></script>
-    <script src="scripts/weather.js"></script>
+    <script src="scripts/call.js"></script>
     <script src="scripts/app.js"></script>
     <script src="Plugins/jquery.xml2json.js"></script>
     
-    <script>
-        
-        var webService = "http://tpointwebservice.perdial.com/tpointwebservice.asmx/"; //getComponent
-        //var webService = "http://193.128.62.132/tPointWebService.asmx/"; //getComponent
-        // componentID: compId, userID: userId, recordId: recordId, lsSearchParams: searchParams
-        //call(webService + "getLogin", "test", "test");
-        
-        function call(address, username, password) {
-			jQuery.support.cors = true;
-            var returnValue = -1;
-            
-			$.ajax({
-					type: "POST",
-                    async: false,
-					url: address,
-                    data: JSON.stringify({ username: username, password: password }),
-                    contentType: "application/json; charset=utf-8",
-					success: function (response) 
-                    {
-                        returnValue = response.d;
-                        console.log("call: " + returnValue);
-                        //var nameJson = $.xml2json(response.d);
-					},
-                    error: function (response) 
-                    {
-						console.log("Error: " + response);
-					}
-			});
-            
-            return returnValue;
-        }
-        
-    </script>
-    
 </head>
 <body>
-    
-    <!-- <a id="skin-change" data-role="button" data-click="app.changeSkin">Flat</a> -->
-    
+        
     <!-- Login/Home -->
     <div id="login" data-role="view" data-title="Login" data-model="app.loginService.viewModel">
         <div class="view-content">
@@ -90,12 +55,12 @@
                 </center>
             </form>
             
-            <!-- When logged in is successful -->
+            <!-- When login is successful -->
             <h1 class="welcome" data-bind="visible: isLoggedIn">
                 Aspect Maintenance
             </h1>
             <div data-bind="visible: isLoggedIn">
-                <a class="position" data-role="button" href="#jobSummaryOverview">Outstanding Calls</a>
+                <a class="position" data-role="button" href="#jobSummary">Outstanding Calls</a>
                 <a class="position" data-role="button" href="#button-home">Get Specific Calls</a>
                 <a class="position" data-role="button" href="#button-home">Enter Call Details</a>
                 <a class="position" data-role="button" href="#button-home">Enter Timesheet</a>
@@ -104,19 +69,14 @@
             <div class="position">
                 <input type="submit" id="logout" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" class="login-button" value="Logout" />
             </div>
-            
         </div>
     </div>
     
-    <div id="jobSummaryOverview" data-role="view" data-title="Job Summary Overview">
+    <!--<div id="jobSummaryOverview" data-role="view" data-title="Job Summary Overview">
         <div class="view-content">
             <center>
                 <h1>Job Summary Overview</h1>
             </center>
-            
-            <!--<input class="position" id="client" type="text" readonly="readonly" />
-            <input class="position" id="balance" type="text" readonly="readonly" />
-            <input class="position" id="call" type="text" readonly="readonly" />-->
             
             <ul data-role="listview" data-style="inset">
                 <li>
@@ -142,9 +102,9 @@
             <a class="position" data-role="button" href="#login">Cancel</a>
             <a class="position" data-role="button" href="#jobSummary">View</a>
         </div>
-    </div>
+    </div>-->
     
-    <div id="jobSummary" data-role="view" data-title="Job Summary">
+    <div id="jobSummary" data-role="view" data-title="Job Summary" data-model="app.jobService.viewModel" data-init="getNextJob">
         <div class="view-content">
             <center>
                 <h1>Job Summary</h1>

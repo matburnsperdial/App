@@ -7,32 +7,42 @@
         username: "",
         password: "",
         error: false,
-
+        emptyUserPass: false,
+        online: false,
+		
         onLogin: function () {
             var that = this,
                 username = that.get("username").trim(),
                 password = that.get("password").trim();
-
-            if (username === "" || password === "") {
-                //navigator.notification.alert("Both fields are required!",
-                    //function () { }, "Login failed", 'OK');
-					that.set("error", true);
+			
+            if (username === "" || password === "") 
+            {
+				that.set("emptyUserPass", true);
                 return;
             }
             
-            var checkLogin = getLogin(username, password);
-            
-            console.log("checkLogin: " + checkLogin);
-            
-            if (!checkLogin == "0")
+            if (!isOnline())
             {
-                that.set("isLoggedIn", true);
-                setStored("userId", checkLogin);
+                that.set("online", true);
             }
             else
             {
-                that.set("error", true);
-                that.set("isLoggedIn", false);
+                that.set("online", false);
+                
+                var checkLogin = getLogin(username, password);
+                
+                console.log("checkLogin: " + checkLogin);
+                
+                if (!checkLogin == "0")
+                {
+                    that.set("isLoggedIn", true);
+                    setStored("userId", checkLogin);
+                }
+                else
+                {
+                    that.set("error", true);
+                    that.set("isLoggedIn", false);
+                }
             }
             
         },
@@ -44,6 +54,8 @@
             clearStored();
             that.set("isLoggedIn", false);
             that.set("error", false);
+            that.set("emptyUserPass", false);
+            that.set("online", false);
         },
 
         clearForm: function () {

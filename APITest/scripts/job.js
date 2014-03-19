@@ -6,27 +6,43 @@
         callRef: "",
         company: "",
         address: "",
-        firstName: "",
-        lastName: "",
+        contactName: "",
         telephone: "",
         description: "",
+        type: "",
+        date: "",
+		start: "",
+        end: "",
+        online: false,
+        status: false,
 		
         getNextJob: function () 
-        {
-        	try
+        {            
+            try
             {
-                var userId = getStored("userId");
-                var nextJob = getMyNextJob(userId);
-                
-                if (nextJob !== undefined)
+                if (!isOnline())
                 {
-                    console.log(nextJob);
-                    app.jobService.viewModel.setupNextJob(nextJob);
+                    console.log("offline");
+                    app.jobService.viewModel.set("online", true);
                 }
                 else
                 {
-                    console.log("log out");
+                    console.log("online");
+                    app.jobService.viewModel.set("online", false);
                     
+                    var userId = getStored("userId");
+                    var nextJob = getMyNextJob(userId);
+                    
+                    if (nextJob !== undefined)
+                    {
+                        console.log(nextJob);
+                        app.jobService.viewModel.setupNextJob(nextJob);
+                    }
+                    else
+                    {
+                        console.log("log out");
+                        
+                    }
                 }
             }
             catch (error)
@@ -43,42 +59,162 @@
                 callRef = that.get("callRef").trim(),
                 company = that.get("company").trim();
             	address = that.get("address").trim();
-            	firstName = that.get("firstName").trim();
-            	lastName = that.get("lastName").trim();
+            	contactName = that.get("contactName").trim();
             	telephone = that.get("telephone").trim();
             	description = that.get("description").trim();
+            	type = that.get("type").trim();
+            	date = that.get("date").trim();
+            	start = that.get("start").trim();
+            	end = that.get("end").trim();
             
             if ("row" in nextJob)
             {
-                for (var key in nextJob.row) {
-                    //alert(' name=' + key + ' value=' + nextJob.row[key]);
-                    
+                that.getFieldForBinding(nextJob);
+                
+                /*for (var key in nextJob.row) 
+                {
                     var fieldName = key;
                     var fieldValue = nextJob.row[key];
                     
-                    //console.log("fieldName: " + fieldName);
-                    
-                    switch (fieldName)
-            		{                        
-                        case (key.indexOf('Company') >= 0):
-                        	console.log("in!     fieldName: " + fieldName);	
-                        	that.set("company", fieldValue);
-                            break;
-                        case (fieldName.indexOf('irst') >= 0):
-                            //fieldValue = nextJob.row[key];
-                        	console.log("in!     fieldName: " + fieldName);
-                        	that.set("firstName", fieldValue);
-                            break;
+                    if (fieldName.indexOf("Job") >= 0 && fieldName.indexOf("ID") >= 0)
+                    {
+                        that.set("callRef", fieldValue);
+                        setStored("callRef", fieldValue);
                     }
-					
-                    //console.log("fieldValue: " + fieldValue);
-                }
+                    else if (fieldName.indexOf("Company") >= 0)
+                    {
+                        that.set("company", fieldValue);
+                        setStored("company", fieldValue);
+                    }
+                    else if (fieldName.indexOf("Address") >= 0)
+                    {
+                        that.set("address", fieldValue);
+                        setStored("address", fieldValue);
+                    }
+                    else if (fieldName.indexOf("Last") >= 0 && fieldName.indexOf("Name") >= 0)
+                    {
+                        that.set("contactName", fieldValue);
+                        setStored("contactName", fieldValue);
+                    }
+                    else if (fieldName.indexOf("Phone") >= 0)
+                    {
+                        that.set("telephone", fieldValue);
+                        setStored("telephone", fieldValue);
+                    }
+                    else if (fieldName.indexOf("Description") >= 0)
+                    {
+                        that.set("description", fieldValue);
+                        setStored("description", fieldValue);
+                    }
+                    else if (fieldName.indexOf("Type") >= 0)
+                    {
+                        that.set("type", fieldValue);
+                        setStored("type", fieldValue);
+                    }
+                    else if (fieldName.indexOf("Start") >= 0)
+                    {
+                        var valueToTrim = fieldValue;
+                        valueToTrim = valueToTrim.slice(0, -15);
+                        that.set("date", valueToTrim);
+                        setStored("date", fieldValue);
+                        
+                        fieldValue = fieldValue.slice(11, -9);
+                        that.set("start", fieldValue);
+                        setStored("start", fieldValue);
+                    }
+                    else if (fieldName.indexOf("End") >= 0)
+                    {
+                        fieldValue = fieldValue.slice(11, -9);
+                        that.set("end", fieldValue);
+                        setStored("end", fieldValue);
+                    }
+                }*/
             }
             else
             {
                 console.log("No data available");
+                // feedback
             }
-
+        },
+        
+        getFieldForBinding: function (nextJob) 
+        {
+            for (var key in nextJob.row) 
+            {
+            	var fieldName = key;
+                var fieldValue = nextJob.row[key];
+                    
+                var nextJobAllocated = checkAllocated(fieldName, fieldValue);
+            }
+        },
+        
+        checkAllocated: function (fieldName, fieldValue) 
+        {
+            if (fieldName.indexOf("Status") >= 0)
+            {
+            	//that.set("status", true);
+                if (fieldValue == "")
+                {
+                    
+                }
+            }
+            
+        },
+        
+        bindFields: function (nextJob) 
+        {
+            if (fieldName.indexOf("Job") >= 0 && fieldName.indexOf("ID") >= 0)
+            {
+            	that.set("callRef", fieldValue);
+                setStored("callRef", fieldValue);
+            }
+                else if (fieldName.indexOf("Company") >= 0)
+                {
+                	that.set("company", fieldValue);
+                    setStored("company", fieldValue);
+                }
+                else if (fieldName.indexOf("Address") >= 0)
+                {
+                	that.set("address", fieldValue);
+                    setStored("address", fieldValue);
+                }
+                else if (fieldName.indexOf("Last") >= 0 && fieldName.indexOf("Name") >= 0)
+                {
+                	that.set("contactName", fieldValue);
+                    setStored("contactName", fieldValue);
+                }
+                else if (fieldName.indexOf("Phone") >= 0)
+                {
+                	that.set("telephone", fieldValue);
+                    setStored("telephone", fieldValue);
+                }
+                else if (fieldName.indexOf("Description") >= 0)
+                {
+                	that.set("description", fieldValue);
+                    setStored("description", fieldValue);
+                }
+                else if (fieldName.indexOf("Type") >= 0)
+                {
+                	that.set("type", fieldValue);
+                    setStored("type", fieldValue);
+                }
+                else if (fieldName.indexOf("Start") >= 0)
+                {
+                	var valueToTrim = fieldValue;
+                    valueToTrim = valueToTrim.slice(0, -15);
+                    that.set("date", valueToTrim);
+                    setStored("date", fieldValue);
+                        
+                    fieldValue = fieldValue.slice(11, -9);
+                    that.set("start", fieldValue);
+                    setStored("start", fieldValue);
+                }
+                else if (fieldName.indexOf("End") >= 0)
+                {
+                	fieldValue = fieldValue.slice(11, -9);
+                    that.set("end", fieldValue);
+                    setStored("end", fieldValue);
+                }
         }
     });
 

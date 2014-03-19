@@ -13,6 +13,7 @@
 
     <script src="scripts/login.js"></script>
     <script src="scripts/job.js"></script>
+    <script src="scripts/connectivity.js"></script>
     <script src="scripts/storage.js"></script>
     <script src="scripts/location.js"></script>
     <script src="scripts/call.js"></script>
@@ -51,7 +52,9 @@
                 </div>
                 
                 <center>
-                    <h2 class="welcome" style="color: red" data-bind="invisible: isLoggedIn, visible: error">I'm afraid I can't let you do that Dave</h2>
+                    <h2 class="welcome" style="color: red" data-bind="invisible: isLoggedIn, visible: error, invisible: onLogout">I'm afraid I can't let you do that Dave</h2>
+                    <h2 class="welcome" style="color: red" data-bind="invisible: isLoggedIn, visible: emptyUserPass, invisible: onLogout">Please enter a Username and Password</h2>
+                    <h2 class="welcome" style="color: red" data-bind="invisible: isLoggedIn, visible: online, invisible: onLogout">Internet connection required for Login</h2>
                 </center>
             </form>
             
@@ -78,7 +81,7 @@
                 <h1>Job Summary</h1>
             </center>
             
-            <ul data-role="listview" data-style="inset">
+            <ul data-role="listview" data-style="inset" data-bind="invisible: online">
                 <li>
                     <label>
                         Call Ref
@@ -94,31 +97,25 @@
                 <li>
                     <label>
                         Address
-                        <input type="text" data-bind="value: address" readonly="readonly" />
+                        <textarea type="text" data-bind="value: address" readonly="readonly"></textarea>
                     </label>
                 </li>
                 <li>
                     <label>
-                        First Name
-                        <input type="text" data-bind="value: firstName" readonly="readonly" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        Last Name
-                        <input type="text" data-bind="value: lastName" readonly="readonly" />
+                        Contact Name
+                        <input type="text" data-bind="value: contactName" readonly="readonly" />
                     </label>
                 </li>
                 <li>
                     <label>
                         Telephone
-                        <input type="text" data-bind="value: telephone" readonly="readonly" />
+                        <input type="tel" data-bind="value: telephone" readonly="readonly" />
                     </label>
                 </li>
                 <li>
                     <label>
                         Description
-                        <input type="text" data-bind="value: description" readonly="readonly" />
+                        <textarea type="text" data-bind="value: description" readonly="readonly" style="resize: none"></textarea>
                     </label>
                 </li>
                 <li>
@@ -129,26 +126,30 @@
                 </li>
                 <li>
                     <label>
-                        Service
-                        <input type="text" data-bind="value: service" readonly="readonly" />
+                        App. Date
+                        <input id="bla" type="date" data-bind="value: date" readonly="readonly" />
                     </label>
                 </li>
                 <li>
                     <label>
-                        Apt. Start
-                        <input type="text" data-bind="value: start" readonly="readonly" />
+                        App. Start
+                        <input type="time" data-bind="value: start" readonly="readonly" />
                     </label>
                 </li>
                 <li>
                     <label>
                         Apt. End
-                        <input type="text" data-bind="value: end" readonly="readonly" />
+                        <input type="time" data-bind="value: end" readonly="readonly" />
                     </label>
                 </li>
             </ul>
             
-            <a class="position" data-role="button" href="#enterETA">Select</a>
+            <a class="position" data-role="button" href="#enterETA" data-bind="invisible: online">Select</a>
             <a class="position" data-role="button" href="#login">Home</a>
+            
+            <center>
+            	<h2 class="welcome" style="color: red" data-bind="visible: online">Internet connection required to get the Next Job. Please try again later.</h2>
+            </center>
         </div>
     </div>
 

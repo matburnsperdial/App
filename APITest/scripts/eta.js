@@ -8,13 +8,11 @@
         error: false,
         online: false,
 		
-        onLoad: function () {
-            //var that = this,
-                //date = that.get("date").trim(),
-                //time = that.get("time").trim();
+        onLoad: function () 
+        {
+			app.etaService.viewModel.getDate();
 			
             app.etaService.viewModel.getTime();
-            
         },
         
         getDate: function ()
@@ -24,7 +22,19 @@
             
             try
             {
+                var dateStored = getStored("date");
+                var year = dateStored.slice(0, 4);
+                var month = dateStored.slice(5, 7);
+                var day = dateStored.slice(8, 10);
                 
+                console.log(day);
+                
+                for (day; day <= 30; day++)
+                {
+                 	
+                }
+                
+                //console.log(day);
             }
             catch (error)
             {
@@ -36,6 +46,8 @@
         {
             var that = this,
                 time = that.get("time").trim();
+            
+            var data = [];
             
             try
             {
@@ -53,25 +65,28 @@
                         	min = "0" + min;
                         }*/
                         
-                        console.log(hour + ":" + min);
-                        //that.set("time", hour + ":" + min);
+                        var myTime = hour + ":" + min;
                         
-                        var data = [];                
-                            dropdown.push({ "dropdown": hour + ":" + min})
+                        //console.log(myTime);
                         
-                            $("#dropdown").kendoDropDownList({
-                                dataTextField: "etaTime",
-                                dataSource: data
-                            });
-                        
-                        /*$("#dropdown").kendoDropDownList({
-                            dataSource: kendo.data.DataSource.create({ data: hour + ":" + min }),
-                            template: $("#etaTime").html(),
-                            fixedHeaders: true
-                        });*/
+                        data.push({
+                            name: myTime
+                        });
                     }
-                    
                 }
+                
+                /*$("#dropdown").kendoDropDownList({
+                    dataSource: kendo.data.DataSource.create({ data: data }),
+                    template: $("#etaTime").html(),
+                    fixedHeaders: true
+                });*/
+                
+                /*$("#dropdown").kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    template: $("#etaTime").html(),
+                    dataSource: [{ data: data }]
+                });*/
             }
             catch (error)
             {

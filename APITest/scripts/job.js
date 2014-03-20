@@ -134,7 +134,7 @@
                 	var valueToTrim = fieldValue;
                     valueToTrim = valueToTrim.slice(0, -15);
                     that.set("date", valueToTrim);
-                    setStored("date", fieldValue);
+                    setStored("date", valueToTrim);
                             
                     fieldValue = fieldValue.slice(11, -9);
                     that.set("start", fieldValue);

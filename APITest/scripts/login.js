@@ -56,6 +56,7 @@
             that.set("error", false);
             that.set("emptyUserPass", false);
             that.set("online", false);
+            app.jobService.viewModel.set("jobNotAvailable", false);
         },
 
         clearForm: function () {

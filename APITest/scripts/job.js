@@ -15,6 +15,7 @@
         end: "",
         online: false,
         status: false,
+        jobNotAvailable: false,
 		
         getNextJob: function () 
         {            
@@ -22,12 +23,10 @@
             {
                 if (!isOnline())
                 {
-                    console.log("offline");
                     app.jobService.viewModel.set("online", true);
                 }
                 else
                 {
-                    console.log("online");
                     app.jobService.viewModel.set("online", false);
                     
                     var userId = getStored("userId");
@@ -40,8 +39,7 @@
                     }
                     else
                     {
-                        console.log("log out");
-                        
+                        app.jobService.viewModel.set("jobNotAvailable", true);
                     }
                 }
             }
@@ -59,128 +57,95 @@
             
             if ("row" in nextJob)
             {
-                var nextJobNotFound = that.getFieldForBinding(nextJob, "true");
-                console.log("nextJobNotFound " + nextJobNotFound);
+                var nextJobFound = nextJob.row["Current_x0020_Status"];
                 
-                if (nextJobNotFound == true)
+                if (nextJobFound == "Allocated")
                 {
-               	 console.log("nextJobNotFound in" );
-                	that.getFieldForBinding(nextJob, "false");
+                    that.bindFields(nextJob);
+                }
+                else
+                {
+                    that.set("jobNotAvailable", true);
                 }
             }
             else
             {
                 console.log("No data available");
-                // feedback
+                that.set("jobNotAvailable", true);
             }
         },
         
-        getFieldForBinding: function (nextJob, check) 
+        bindFields: function (nextJob) 
         {
-            var that = this;
-            var nextJobNotFound = false;
-            
             for (var key in nextJob.row) 
             {
             	var fieldName = key;
                 var fieldValue = nextJob.row[key];
+            
+                var that = this
+                    callRef = that.get("callRef").trim(),
+                    company = that.get("company").trim();
+                	address = that.get("address").trim();
+                	contactName = that.get("contactName").trim();
+                	telephone = that.get("telephone").trim();
+                	description = that.get("description").trim();
+                	type = that.get("type").trim();
+                	date = that.get("date").trim();
+                	start = that.get("start").trim();
+                	end = that.get("end").trim();
                 
-                console.log("check " + check);
-                if (check == "true")
+                if (fieldName.indexOf("Job") >= 0 && fieldName.indexOf("ID") >= 0)
                 {
-                    nextJobNotFound = that.checkForNoJobFound(fieldName, fieldValue);
-                    console.log("nextJobNotFound check " + nextJobNotFound);
-                    
-                    if (nextJobNotFound == true)
-                    {
-                        return true;
-                    }
+                	that.set("callRef", fieldValue);
+                    setStored("callRef", fieldValue);
                 }
-                else
+                else if (fieldName.indexOf("Company") >= 0)
                 {
-                    that.bindFields(fieldName, fieldValue);
+                	that.set("company", fieldValue);
+                    setStored("company", fieldValue);
                 }
-            }
-            
-        },
-        
-        checkForNoJobFound: function (fieldName, fieldValue) 
-        {
-            if (fieldName.indexOf("Status") >= 0)
-            {
-                if (fieldValue == "No Job Found")
+                else if (fieldName.indexOf("Address") >= 0)
                 {
-                    return true;
+                	that.set("address", fieldValue);
+                    setStored("address", fieldValue);
                 }
-            }
-            
-        },
-        
-        bindFields: function (fieldName, fieldValue) 
-        {
-            var that = this
-                callRef = that.get("callRef").trim(),
-                company = that.get("company").trim();
-            	address = that.get("address").trim();
-            	contactName = that.get("contactName").trim();
-            	telephone = that.get("telephone").trim();
-            	description = that.get("description").trim();
-            	type = that.get("type").trim();
-            	date = that.get("date").trim();
-            	start = that.get("start").trim();
-            	end = that.get("end").trim();
-            
-            if (fieldName.indexOf("Job") >= 0 && fieldName.indexOf("ID") >= 0)
-            {
-            	that.set("callRef", fieldValue);
-                setStored("callRef", fieldValue);
-            }
-            else if (fieldName.indexOf("Company") >= 0)
-            {
-            	that.set("company", fieldValue);
-                setStored("company", fieldValue);
-            }
-            else if (fieldName.indexOf("Address") >= 0)
-            {
-            	that.set("address", fieldValue);
-                setStored("address", fieldValue);
-            }
-            else if (fieldName.indexOf("Last") >= 0 && fieldName.indexOf("Name") >= 0)
-            {
-                that.set("contactName", fieldValue);
-                setStored("contactName", fieldValue);
-            }
-            else if (fieldName.indexOf("Phone") >= 0)
-            {
-            	that.set("telephone", fieldValue);
-                setStored("telephone", fieldValue);
-            }
-            else if (fieldName.indexOf("Description") >= 0)
-            {
-            	that.set("description", fieldValue);
-                setStored("description", fieldValue);
-            }
-            else if (fieldName.indexOf("Type") >= 0)
-            {
-            	that.set("type", fieldValue);
-                setStored("type", fieldValue);
-            }
-            else if (fieldName.indexOf("Start") >= 0)
-            {
-            	var valueToTrim = fieldValue;
-                valueToTrim = valueToTrim.slice(0, -15);
-                that.set("date", valueToTrim);
-                setStored("date", fieldValue);
-                        
-                fieldValue = fieldValue.slice(11, -9);
-                that.set("start", fieldValue);
-                setStored("start", fieldValue);
-            }
-            else if (fieldName.indexOf("End") >= 0)
-            {
-            	fieldValue = fieldValue.slice(11, -9);
-                that.set("end", fieldValue);
-                setStored("end", fieldValue);
+                else if (fieldName.indexOf("Last") >= 0 && fieldName.indexOf("Name") >= 0)
+                {
+                    that.set("contactName", fieldValue);
+                    setStored("contactName", fieldValue);
+                }
+                else if (fieldName.indexOf("Phone") >= 0)
+                {
+                	that.set("telephone", fieldValue);
+                    setStored("telephone", fieldValue);
+                }
+                else if (fieldName.indexOf("Description") >= 0)
+                {
+                	that.set("description", fieldValue);
+                    setStored("description", fieldValue);
+                }
+                else if (fieldName.indexOf("Type") >= 0)
+                {
+                	that.set("type", fieldValue);
+                    setStored("type", fieldValue);
+                }
+                else if (fieldName.indexOf("Start") >= 0)
+                {
+                	var valueToTrim = fieldValue;
+                    valueToTrim = valueToTrim.slice(0, -15);
+                    that.set("date", valueToTrim);
+                    setStored("date", fieldValue);
+                            
+                    fieldValue = fieldValue.slice(11, -9);
+                    that.set("start", fieldValue);
+                    setStored("start", fieldValue);
+                }
+                else if (fieldName.indexOf("End") >= 0)
+                {
+                	fieldValue = fieldValue.slice(11, -9);
+                    that.set("end", fieldValue);
+                    setStored("end", fieldValue);
+                }
             }
         }
     });

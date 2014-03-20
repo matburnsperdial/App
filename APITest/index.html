@@ -81,7 +81,7 @@
                 <h1>Job Summary</h1>
             </center>
             
-            <ul data-role="listview" data-style="inset" data-bind="invisible: online">
+            <ul data-role="listview" data-style="inset" data-bind="invisible: online, invisible: jobNotAvailable">
                 <li>
                     <label>
                         Call Ref
@@ -144,12 +144,14 @@
                 </li>
             </ul>
             
-            <a class="position" data-role="button" href="#enterETA" data-bind="invisible: online">Select</a>
+            <center>
+            	<h2 class="welcome" style="color: red" data-bind="visible: online">Internet connection required to get the Next Job. Please try again later</h2>
+                <h2 class="welcome" style="color: red" data-bind="visible: jobNotAvailable">A Job is Currently Unavailable</h2>
+            </center>
+            
+            <a class="position" data-role="button" href="#enterETA" data-bind="invisible: online, invisible: jobNotAvailable">Select</a>
             <a class="position" data-role="button" href="#login">Home</a>
             
-            <center>
-            	<h2 class="welcome" style="color: red" data-bind="visible: online">Internet connection required to get the Next Job. Please try again later.</h2>
-            </center>
         </div>
     </div>
 

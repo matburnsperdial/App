@@ -7,10 +7,16 @@
         time: "",
         error: false,
         online: false,
+        weatherDataSource: null,
 		
         onLoad: function () 
         {
-			app.etaService.viewModel.getDate();
+			var data = ["One", "Two"];
+            $("#dropdownlist").kendoDropDownList({
+              dataSource: data
+			});
+            
+            app.etaService.viewModel.getDate();
 			
             app.etaService.viewModel.getTime();
         },
@@ -23,18 +29,8 @@
             try
             {
                 var dateStored = getStored("date");
-                var year = dateStored.slice(0, 4);
-                var month = dateStored.slice(5, 7);
-                var day = dateStored.slice(8, 10);
                 
-                console.log(day);
-                
-                for (day; day <= 30; day++)
-                {
-                 	
-                }
-                
-                //console.log(day);
+                that.set("date", dateStored);
             }
             catch (error)
             {
@@ -67,13 +63,26 @@
                         
                         var myTime = hour + ":" + min;
                         
-                        //console.log(myTime);
+                        console.log(myTime);
                         
-                        data.push({
+                        /*data.push({
                             name: myTime
-                        });
+                        });*/
                     }
                 }
+                
+                
+
+                /*dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url: myTime,
+                            dataType: "text"
+                        }
+                    }
+                });
+                
+                that.set("weatherDataSource", dataSource);*/
                 
                 /*$("#dropdown").kendoDropDownList({
                     dataSource: kendo.data.DataSource.create({ data: data }),
@@ -92,7 +101,7 @@
             {
             	console.log(error);
             }
-        }
+        },
         
     });
 

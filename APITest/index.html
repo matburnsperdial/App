@@ -162,19 +162,18 @@
                 <h1>Enter ETA</h1>
             </center>
             
+            <input id="dropdownlist" />
+            
             <ul data-role="listview" data-style="inset">
                 <li>
                     <label>
                         Date
-                        <select id="ddlDate">
-                            <!--<option value="First Option">First Option</option>
-                            <option value="Sixth Option">Sixth Option</option>-->
-                        </select>
+                        <input type="date" data-bind="value: date" readonly="readonly" />
                     </label>
                 </li>
                 <li>
                     <label>Time
-                        <select id="dropdown">
+                        <select id="combobox" data-role="dropdownlist" data-bind="value: data" >
                             <!--<option value="First Option">First Option</option>
                             <option value="Second Option">Second Option</option>
                             <option value="Third Option">Third Option</option>
@@ -184,6 +183,13 @@
                         </select>
                     </label>
                 </li>
+                
+                <!--
+                <ul class="forecast-list"
+                data-role="listview"
+                data-bind="source: weatherDataSource"
+                data-template="weather-forecast-template">
+            	</ul>-->
             </ul>
             
             <a class="position" data-role="button" href="#">Save</a>
@@ -191,10 +197,8 @@
         </div>
     </div>
     
-    <script type="text/x-kendo-tmpl" id="etaTime">
-            <option>
-                <span>${time}</span>
-            </option>
+    <script type="text/x-kendo-tmpl" id="etaTime-template">
+            <option>${time}</option>
     </script>
     
     
